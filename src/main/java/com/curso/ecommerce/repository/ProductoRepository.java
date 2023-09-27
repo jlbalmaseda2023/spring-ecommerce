@@ -8,4 +8,6 @@ import com.curso.ecommerce.model.Producto;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
+
+
 }
