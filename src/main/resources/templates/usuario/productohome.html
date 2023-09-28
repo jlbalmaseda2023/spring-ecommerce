@@ -33,42 +33,62 @@
 <body>
 
 	<!-- Navigation -->
-
 	<div th:include="/usuario/template_usuario.html::header"></div>
 
 	<!-- Page Content -->
 	<div class="container">
 
-		<!-- Jumbotron Header -->
-		<header class="jumbotron my-4">
-			<h1 class="display-3">Bienvenido a Spring Ecommerce 2021</h1>
-			<p class="lead">Tu tienda de productos en Línea</p>
-		</header>
 
-		<!-- Page Features -->
-		<div class="row text-center">
-			<div th:each="producto:${productos}" class="col-lg-3 col-md-4 col-sm-6 mb-4">
-				<div class="card h-100">
-					<img class="card-img-top" th:src="@{/images/{imagen}(imagen=${producto.imagen})}"
-						alt="">
-					<div class="card-body">
-						<p class="card-text" th:text="${producto.nombre}"></p>
+		<!-- Page Heading/Breadcrumbs -->
+		<h1 class="mt-4 mb-3">
+			Spring eCommerce <small>Producto</small>
+		</h1>
+
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+			<li class="breadcrumb-item active">Producto</li>
+		</ol>
+
+		<!-- Blog Post -->
+		<div class="card mb-4">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-lg-6">
+						<a href="#"> <img class="img-fluid rounded" src="http://placehold.it/500x325" alt="">
+						</a>
 					</div>
-					<div class="card-footer">
-						<a th:href="@{productohome/{id} (id=${producto.id})}" class="btn btn-success">Ver producto</a>
+					<div class="col-lg-6">
+						<form action="carrito.html" method="POST">
+							<h2 class="card-title">Nombre producto</h2>
+
+							<ul class="list-group">
+								<li class="list-group-item">
+									<h5>Precio: </h5>
+								</li>
+								<li class="list-group-item">
+									<p>Descripción:</p>
+								</li>
+								<li class="list-group-item">
+									<h6>
+										Cantidad: <input type="number" id="cantidad" name="cantidad" autocomplete="off"
+											min="1" max="5" value="1">
+									</h6>
+								</li>
+							</ul>
+							<button type="submit" class="btn btn-dark">Añadir al carrito </button>
+						</form>
 					</div>
 				</div>
 			</div>
-
 		</div>
 
-		<!-- /.row -->
 
 	</div>
 	<!-- /.container -->
 
 	<!-- Footer -->
 	<div th:include="/usuario/template_usuario.html::footer"></div>
+
 
 	<!-- Bootstrap core JavaScript -->
 	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
