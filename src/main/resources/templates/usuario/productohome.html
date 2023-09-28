@@ -57,7 +57,7 @@
               <a href="#"> <img class="img-fluid rounded" th:src="@{/images/{imagen}(imagen=${producto.imagen})}" alt=""> </a>
             </div>
             <div class="col-lg-6">
-              <form action="carrito.html" method="POST">
+              <form th:action="@{/cart}" method="POST">
                 <h2 class="card-title" th:text="${producto.nombre}"></h2>
 
                 <ul class="list-group">
