@@ -9,8 +9,8 @@ public class ResourcesWebConfiguration implements WebMvcConfigurer {
 
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-		registry.addResourceHandler("/images/**").addResourceLocations("file:///C:/WS/spring-ecommerce/images/");
-
+		registry.addResourceHandler("/images/**").addResourceLocations("///images/");
+		//registry.addResourceHandler("/images/**").addResourceLocations("file:///C:/WS/spring-ecommerce/images/");
 	}
 
 }
