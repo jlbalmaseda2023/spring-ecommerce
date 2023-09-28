@@ -49,7 +49,7 @@
 		<div class="row text-center">
 			<div th:each="producto:${productos}" class="col-lg-3 col-md-4 col-sm-6 mb-4">
 				<div class="card h-100">
-					<img class="card-img-top " th:src="@{/images/{imagen}(imagen=${producto.imagen})}"
+					<img class="card-img-top" th:src="@{/images/{imagen}(imagen=${producto.imagen})}"
 						alt="">
 					<div class="card-body">
 						<p class="card-text" th:text="${producto.nombre}"></p>
