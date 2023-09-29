@@ -43,7 +43,7 @@
 	</h1>
 
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a th:href="@({/}">Home</a></li>
+		<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
 		<li class="breadcrumb-item active">Carrito</li>
 	</ol>
 
@@ -64,11 +64,9 @@
 						</thead>
 						<tbody>
 							<tr>
-								<!--
-								<td><span><ht:text="${producto.nombre}"></span></td>
-								<td><span><ht:text="${producto.precio}"></span></td>
-								<td><span><ht:text="${producto.cantidad}"></span></td>
-								-->
+								<td><span th:text="${producto.nombre}"></span></td>
+								<td><span th:text="${producto.precio}"></span></td>
+								<td><span th:text="${producto.cantidad}"></span></td>
 								<td>Total</td>
 								<td><a href="#" class="btn btn-danger">Quitar</a></td>
 							</tr>
