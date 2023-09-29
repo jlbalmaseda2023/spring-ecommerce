@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,55 +26,78 @@ import com.curso.ecommerce.service.ProductoService;
 @RequestMapping("/")
 public class HomeController {
 
-	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
-	private Producto producto;
+	private final Logger log = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
 	private ProductoService productoService;
 	
-	List<DetalleOrden> detalleOrden= new ArrayList<DetalleOrden>();
 
-	DetalleOrden detalle = new DetalleOrden();
-	
+
+	// para almacenar los detalles de la orden
+	List<DetalleOrden> detalles = new ArrayList<DetalleOrden>();
+
+	// datos de la orden
 	Orden orden = new Orden();
 
 	@GetMapping("")
-	public String home(Model model) {
-
+	public String home(Model model, HttpSession session) {
+		
+		log.info("Sesion del usuario: {}", session.getAttribute("idusuario"));
+		
 		model.addAttribute("productos", productoService.findAll());
-		return "usuario/home";
+		
+		//session
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
 
+		return "usuario/home";
 	}
 
 	@GetMapping("productohome/{id}")
-	public String productoHome(Model model, @PathVariable Integer id) {
-		LOGGER.info("Id producto enviado como parametro {}: " + id);
-		Optional<Producto> productoOptoinal = productoService.findById(id);
-		producto = productoOptoinal.get();
+	public String productoHome(@PathVariable Integer id, Model model) {
+		log.info("Id producto enviado como parámetro {}", id);
+		Producto producto = new Producto();
+		Optional<Producto> productoOptional = productoService.findById(id);
+		producto = productoOptional.get();
+
 		model.addAttribute("producto", producto);
+
 		return "usuario/productohome";
 	}
 
-	
 	@PostMapping("/cart")
-	public String addCart(Model model, @RequestParam("id") Integer id, @RequestParam("cantidad") Integer cantidad) {
-		LOGGER.info("Id producto enviado al carrito como parametro {}: " + id);
+	public String addCart(@RequestParam Integer id, @RequestParam Integer cantidad, Model model) {
+		DetalleOrden detalleOrden = new DetalleOrden();
+		Producto producto = new Producto();
 		double sumaTotal = 0;
+
+		Optional<Producto> optionalProducto = productoService.findById(id);
+		log.info("Producto añadido: {}", optionalProducto.get());
+		log.info("Cantidad: {}", cantidad);
+		producto = optionalProducto.get();
+
+		detalleOrden.setCantidad(cantidad);
+		detalleOrden.setPrecio(producto.getPrecio());
+		detalleOrden.setNombre(producto.getNombre());
+		detalleOrden.setTotal(producto.getPrecio() * cantidad);
+		detalleOrden.setProducto(producto);
 		
-		Optional<Producto> productoOptional = productoService.findById(id);
+		//validar que le producto no se añada 2 veces
+		Integer idProducto=producto.getId();
+		boolean ingresado=detalles.stream().anyMatch(p -> p.getProducto().getId()==idProducto);
 		
-		LOGGER.info("Id producto añadido al carrito {}: " + id);
-		LOGGER.info("Cantidad añadida al carrito {}: " + cantidad);
+		if (!ingresado) {
+			detalles.add(detalleOrden);
+		}
 		
-		producto = productoOptional.get();
-		model.addAttribute("producto", producto);
+		sumaTotal = detalles.stream().mapToDouble(dt -> dt.getTotal()).sum();
+
+		orden.setTotal(sumaTotal);
+		model.addAttribute("cart", detalles);
+		model.addAttribute("orden", orden);
+
 		return "usuario/carrito";
 	}
-	
-	
 
 	
-	
-	
+
 }

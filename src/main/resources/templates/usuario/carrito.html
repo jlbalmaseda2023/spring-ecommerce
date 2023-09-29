@@ -63,11 +63,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><span th:text="${producto.nombre}"></span></td>
-								<td><span th:text="${producto.precio}"></span></td>
-								<td><span th:text="${producto.cantidad}"></span></td>
-								<td>Total</td>
+							<tr th:each="detalleOrden : ${cart}">
+								<td><span th:text="${detalleOrden.nombre}"></span></td>
+								<td><span th:text="${detalleOrden.precio}"></span></td>
+								<td><span th:text="${detalleOrden.cantidad}"></span></td>
+								<td><span th:text="${detalleOrden.total}"></span></td>
 								<td><a href="#" class="btn btn-danger">Quitar</a></td>
 							</tr>
 						</tbody>
@@ -79,7 +79,7 @@
 
 					<ul class="list-group">
 						<li class="list-group-item">
-							<h5>Total: $ 10</h5>
+							<h5><span th:text="${orden.total}"></span></h5>
 						</li>
 						<a href="resumenorden.html" class="btn btn-dark">Ver Orden</a>
 					</ul>
